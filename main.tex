@@ -74,6 +74,13 @@ subsubsectionstyle=show/shaded/hide]
 
 \section{The Problem}
 
+\begin{frame}{Recap: where we are}
+In Module B.1 we looked at the \textit{hardware side of running AI}: how a generic computer is built, why that design struggles with AI workloads, and what accelerators bridge the gap.
+
+    \vspace{0.5em}
+The next question is \textbf{how we actually get our software onto all that hardware}.
+\end{frame}
+
 \begin{frame}{It works on my machine}
 \begin{minipage}[t]{0.6\textwidth}
     Our AI server from Module A.4 runs on your machine because you spent some time setting up Python, FastAPI, PyTorch, and possibly GPU drivers.
@@ -150,38 +157,41 @@ Before \textbf{shipping containers} were standardized in the 1960s, freight was 
         \end{center}
     \end{figure}
 
-Each virtual machine have its own kernel and operating system, while containers share the same host kernel.
+Each virtual machine has its own kernel and operating system, while containers share the same host kernel.
 Containers are light enough to start in seconds, at the cost of weaker isolation than a VM.
 We come back to VMs in Module B.4.
 \end{frame}
 
-% TODO: The following two slides should be more intutiive and less technical, same with the corresponding content in the literature
 \begin{frame}{Layered filesystems}
-    The everything-the-program-needs inside an image is essentially a complete filesystem snapshot.
-    Storing each image as one giant blob would be wasteful, since most images share a lot of common ground.
+    An image holds everything a program needs, which adds up to a lot of files.
+    Storing each image as one solid block would waste space, since most images have a lot in common.
+    Two different Python apps still sit on the same Python and the same Linux underneath.
 
     \begin{figure}[htpb]
         \begin{center}
-            \includegraphics[width=0.32\textwidth]{danish-burger}
+            \includegraphics[width=0.3\textwidth]{danish-burger}
         \end{center}
     \end{figure}
 
-    Think of burgers in a fast-food restaurant. The bottom bun and patty are shared.
-    A cheeseburger adds cheese. A deluxe burger adds lettuce, tomato, and sauce.
+    A fast-food kitchen does not build each burger from scratch.
+    The bottom bun and patty are shared, a cheeseburger adds cheese, a deluxe burger adds lettuce, tomato, and sauce.
 \end{frame}
 
-\begin{frame}[fragile]{Image as a stack of layers}
-    A container image is built the same way, as a stack of read-only layers, each describing a small set of changes from the layer below.
+\begin{frame}[fragile]{An image is a stack of layers}
+    An image is built like those burgers, as a stack of layers, each adding a bit on top of the one below.
     \begin{minted}{text}
-4. Application code      <- /app/main.py copied in
-3. Python packages       <- pip install ...
-2. Python runtime        <- apt install python3
-1. Debian base           <- /, /bin, /lib, etc.
+4. Application code   <- the special sauce, your own program
+3. Python packages    <- the extra toppings
+2. Python runtime     <- the patty
+1. Linux base         <- the bottom bun
     \end{minted}
 
-    Each layer is a self-contained, content-addressed chunk on disk.
-    Two images that share the same base only store that layer once.
-    Pulling a new image only fetches the layers not already present.
+    \begin{itemize}
+        \item A shared layer is stored only once, however many images use it
+        \item Pulling a new image only downloads the layers you do not already have
+    \end{itemize}
+
+    So the second image built on the same base feels much faster to pull than the first.
 \end{frame}
 
 \begin{frame}{The writable layer}
@@ -395,7 +405,7 @@ docker run --env-file .env python:3.13 \
     \begin{block}{Outline}
         \begin{enumerate}
             \item Open a terminal in the directory where your client program lives
-            \item Run a container from a image with Python runtime, like \texttt{python:3.13}, with volume mapping to pass the program
+            \item Run a container from an image with a Python runtime, like \texttt{python:3.13}, with volume mapping to pass the program
             \item Inside the container, run \texttt{pip install requests} and run the client program
         \end{enumerate}
     \end{block}
@@ -417,8 +427,8 @@ docker run --env-file .env python:3.13 \
 \begin{frame}{What you should walk away with}
     By the end of the exercise, you should be able to:
     \begin{enumerate}
-        \item Understand how container works
-        \item Familiar with the Docker ecosystem
+        \item Understand how containers work
+        \item Be familiar with the Docker ecosystem
         \item Run and manage a container with an off-the-shelf image
     \end{enumerate}
 

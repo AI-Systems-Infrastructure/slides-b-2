@@ -27,6 +27,11 @@
 \usepackage{AAU}
 \AtBeginSubsection{}
 \setbeamertemplate{navigation symbols}{}
+\ifdefined\hidenotes\else
+    \setbeameroption{show notes on second screen=right}
+    \setbeamerfont{note page}{size=\large}
+    \hypersetup{pdfkeywords={SP-Right}}
+\fi
 
 \def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
 \def\env#1{\texttt{\color{blue}\footnotesize #1}}
@@ -63,6 +68,8 @@
             \includegraphics[keepaspectratio, scale=0.5]{aau-logo-left-uk}
         \end{center}
     \end{figure}
+\note{
+}
 \end{frame}
 
 
@@ -70,6 +77,8 @@
 \tableofcontents[sectionstyle=show,
 subsectionstyle=show/shaded/hide,
 subsubsectionstyle=show/shaded/hide]
+\note{
+}
 \end{frame}
 
 
@@ -81,6 +90,8 @@ In Module B.1 we looked at the \textit{hardware side of running AI}: how a gener
 
     \vspace{0.5em}
 The next question is \textbf{how we actually get our software onto all that hardware}.
+\note{
+}
 \end{frame}
 
 
@@ -102,6 +113,8 @@ The next question is \textbf{how we actually get our software onto all that hard
         \end{center}
     \end{figure}
 \end{minipage}
+\note{
+}
 \end{frame}
 
 
@@ -114,6 +127,8 @@ The next question is \textbf{how we actually get our software onto all that hard
 
     \vspace{0.5em}
     Containers are arguably the most important reason scaling AI deployment to thousands of computers is practical today.
+\note{
+}
 \end{frame}
 
 
@@ -133,6 +148,8 @@ Before \textbf{shipping containers} were standardized in the 1960s, freight was 
 
     \vspace{0.5em}
 \textbf{Software containers} borrow both the idea and the name.
+\note{
+}
 \end{frame}
 
 
@@ -152,6 +169,8 @@ Before \textbf{shipping containers} were standardized in the 1960s, freight was 
     \end{block}
 
     One image can be used to start many containers. Each starts in the same state and evolves independently.
+\note{
+}
 \end{frame}
 
 
@@ -167,6 +186,8 @@ Before \textbf{shipping containers} were standardized in the 1960s, freight was 
 Each virtual machine has its own kernel and operating system, while containers share the same host kernel.
 Containers are light enough to start in seconds, at the cost of weaker isolation than a VM.
 We come back to VMs in Module B.4.
+\note{
+}
 \end{frame}
 
 
@@ -183,6 +204,8 @@ We come back to VMs in Module B.4.
 
     A fast-food kitchen does not build each burger from scratch.
     The bottom bun and patty are shared, a cheeseburger adds cheese, a deluxe burger adds lettuce, tomato, and sauce.
+\note{
+}
 \end{frame}
 
 
@@ -201,6 +224,8 @@ We come back to VMs in Module B.4.
     \end{itemize}
 
     So the second image built on the same base feels much faster to pull than the first.
+\note{
+}
 \end{frame}
 
 
@@ -215,6 +240,8 @@ We come back to VMs in Module B.4.
 
     Anything the running program writes, like temporary files, log lines, or cached data, ends up in that layer.
     When the container is removed, the writable layer is discarded.
+\note{
+}
 \end{frame}
 
 
@@ -230,6 +257,8 @@ We come back to VMs in Module B.4.
 
     \vspace{0.5em}
     Build an image with one tool, push it to a registry hosted by another, run it on a third. No conversion step in between.
+\note{
+}
 \end{frame}
 
 
@@ -246,6 +275,8 @@ We come back to VMs in Module B.4.
             \includegraphics[width=0.8\textwidth]{docker-architecture}
         \end{center}
     \end{figure}
+\note{
+}
 \end{frame}
 
 
@@ -262,6 +293,8 @@ We come back to VMs in Module B.4.
 \item \textbf{Docker Desktop:} bundles the daemon, CLI, and a GUI into one installer
         \end{itemize}
     \end{block}
+\note{
+}
 \end{frame}
 
 
@@ -276,6 +309,8 @@ We come back to VMs in Module B.4.
         Public registry where developers publish and download container images.
         Hosts both official images for popular software (Python, PostgreSQL, Nginx) and a large collection of community images.
     \end{block}
+\note{
+}
 \end{frame}
 
 
@@ -300,6 +335,8 @@ docker pull ghcr.io/some-user/some-image:v1
     \end{minted}
 
 Use \texttt{docker images} to list all pulled images.
+\note{
+}
 \end{frame}
 
 
@@ -320,6 +357,8 @@ docker run -d python:3.13 sleep 3600    # detached, in the background
     \end{minted}
 
     \texttt{-it} for interactive sessions, \texttt{-d} for long-running background services.
+\note{
+}
 \end{frame}
 
 
@@ -339,6 +378,8 @@ docker logs -f my-app    # follow live
 docker exec -it my-app bash    # shell inside a running container
 docker rm my-app         # remove a stopped container
     \end{minted}
+\note{
+}
 \end{frame}
 
 
@@ -356,6 +397,8 @@ docker rm my-app         # remove a stopped container
         \item Files (volumes)
         \item Environment variables
     \end{itemize}
+\note{
+}
 \end{frame}
 
 
@@ -376,6 +419,8 @@ docker run -p 3000:8000 python:3.13 python -m http.server 8000
 
     Server still listens on 8000 inside, but appears as 3000 on the host.
     Useful when several containers use the same internal port.
+\note{
+}
 \end{frame}
 
 
@@ -396,6 +441,8 @@ docker run -v $(pwd):/app python:3.13 ls /app
         \item Feed code or config into a container without baking it into the image
         \item Persist data (like a database file) past the container's lifetime
     \end{enumerate}
+\note{
+}
 \end{frame}
 
 
@@ -415,6 +462,8 @@ docker run --env-file .env python:3.13 \
     \end{minted}
 
     Same \texttt{.env} format as Module A.2, one \texttt{KEY=value} per line.
+\note{
+}
 \end{frame}
 
 
@@ -431,6 +480,8 @@ docker run --env-file .env python:3.13 \
             \item Inside the container, run \texttt{pip install requests} and run the client program
         \end{enumerate}
     \end{block}
+\note{
+}
 \end{frame}
 
 
@@ -444,6 +495,8 @@ docker run --env-file .env python:3.13 \
     \vspace{0.5em}
     By the end you have a feel for how containers run programs without any per-machine setup.
     Next module: build our own image instead of using someone else's.
+\note{
+}
 \end{frame}
 
 
@@ -457,6 +510,8 @@ docker run --env-file .env python:3.13 \
 
     \vspace{0.5em}
 In the next module, we will learn how to build our own container image with everything needed to run our AI API server.
+\note{
+}
 \end{frame}
 
 
@@ -471,6 +526,8 @@ In the next module, we will learn how to build our own container image with ever
 {\small \faEnvelope\ \href{mailto:lyan@cs.aau.dk}{lyan@cs.aau.dk} \\
 \faGlobe\ \href{https://www.yanlincs.com}{www.yanlincs.com}}
 \end{center}
+\note{
+}
 \end{frame}
 
 \end{document}

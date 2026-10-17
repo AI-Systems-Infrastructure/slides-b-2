@@ -23,7 +23,7 @@
 \institute{%
     \href{https://www.yanlincs.com}{www.yanlincs.com}
 }
-\date{September 1st, 2026}
+\date{October 19th, 2026}
 \usepackage{AAU}
 \AtBeginSubsection{}
 \setbeamertemplate{navigation symbols}{}
@@ -85,53 +85,92 @@ subsubsectionstyle=show/shaded/hide]
 
 
 
-\section{The Problem}
+\section{Introduction}
 
-\begin{frame}{Recap: where we are}
-In Module B.1 we looked at the \textit{hardware side of running AI}: how a generic computer is built, why that design struggles with AI workloads, and what accelerators bridge the gap.
+\begin{frame}{Recap of Module B.1: AI Hardware Infrastructure}{Hardware is the scalability ceiling}
+  We need better and more hardware to scale up our AI systems.
 
-    \vspace{0.5em}
-The next question is \textbf{how we actually get our software onto all that hardware}.
+  \begin{figure}[htpb]
+      \begin{center}
+          \begin{subfigure}{0.337\textwidth}
+              \includegraphics[width=\textwidth]{nvidia-hgx-b200}
+              \caption{Better suited: NVIDIA HGX B200}
+          \end{subfigure}
+          \hspace{0.05\textwidth}
+          \begin{subfigure}{0.513\textwidth}
+              \includegraphics[width=\textwidth]{alps-supercomputer}
+              \caption{More of it: Alps supercomputer}
+          \end{subfigure}
+      \end{center}
+  \end{figure}
+
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{It works on my machine}
-\begin{minipage}[t]{0.6\textwidth}
-    Our AI server from Module A.4 runs on your machine because you spent some time setting up Python, FastAPI, PyTorch, and possibly GPU drivers.
+\begin{frame}{Recap of Module B.1: AI Hardware Infrastructure}{Von Neumann Architecture}
+  A \textbf{philosophical architecture} to build a computer that can do computer stuff.
 
-    \begin{itemize}
-        \item A teammate would have to repeat the entire setup
-        \item One missing system library or version conflict and things break
-        \item Now imagine running the same server on a hundred machines in a data center
-    \end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.38\textwidth}
-    \begin{figure}
-        \begin{center}
-            \includegraphics[width=.9\textwidth]{programmer-reply}
-        \end{center}
-    \end{figure}
-\end{minipage}
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.72\textheight,keepaspectratio]{module-b1-computer-architecture}
+      \end{center}
+  \end{figure}
+
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{Containers fix this}
-    A \textbf{container} is a self-contained package of a program plus everything the program needs to run.
-    The same package runs on any machine with a container runtime.
+\begin{frame}{Recap of Module B.1: AI Hardware Infrastructure}{The architecture that stands the test of time}
+  The Von Neumann architecture \textbf{has dominated most computers} since the early 1950s, and will continue to do so for the foreseeable future.
 
-    \vspace{0.5em}
-    Once our AI server is in a container, deploying to another machine becomes one or two commands.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=\textwidth]{computer-timeline-von-neumann}
+      \end{center}
+  \end{figure}
 
-    \vspace{0.5em}
-    Containers are arguably the most important reason scaling AI deployment to thousands of computers is practical today.
 \note{
 }
 \end{frame}
+
+
+\begin{frame}{Scale up AI systems on more hardware}
+  Now we have \textbf{more computers} with \textbf{the same architecture}. Should be as simple as \textit{setting up and running my AI system on every computer}.
+
+  % TODO: Embed an "it works on my machine" meme image
+\note{
+  After all, my program works on my computer. Should automatically work on other computers.
+}
+\end{frame}
+
+
+\begin{frame}{Scale up AI systems on more hardware}{A program does not just work on other computers}
+\begin{itemize}
+  \item \textbf{Nuances in computer runtime environment:} CPU architecture, operating systems, Python version, Python packages, \dots
+  \item \textbf{Tedious setup process:} Going through the process of configuring the runtime environment on every computer is impractical
+\end{itemize}
+
+  % TODO: Embed an image of the tedious process of setting up multiple Windows computers at once. I am thinking about an image in a post where an IT guy set up Windows laptops for his company, and tens of Cortana files at once.
+\note{
+}
+\end{frame}
+
+
+\begin{frame}{Module B.2: Container Fundamentals}
+  Industry standard for streamlining the process of deploying our AI systems onto any* computer.
+
+  \begin{itemize}
+    \item \textbf{Container} as a self-contained package of a program plus everything the program needs to run
+    \item Working with containers in practice using the \textbf{Docker} ecosystem
+  \end{itemize}
+
+\note{
+}
+\end{frame}
+
 
 
 

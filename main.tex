@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{minted}
 \setminted{fontsize=\footnotesize}
+\newminted[cmdoutput]{text}{bgcolor=outputgrey,fontsize=\scriptsize}
 \usepackage{fontawesome5}
 
 \usepackage{etoolbox}
@@ -39,6 +40,7 @@
 \definecolor{aaublue}{RGB}{32, 26, 78}
 \definecolor{aaured}{RGB}{152, 43, 28}
 \definecolor{textgrey}{RGB}{60, 60, 60}
+\definecolor{outputgrey}{RGB}{235, 235, 235}
 
 \setbeamercolor{normal text}{fg=textgrey}
 \usebeamercolor[fg]{normal text}
@@ -372,6 +374,12 @@ subsubsectionstyle=show/shaded/hide]
   \begin{minted}{bash}
 docker search python
   \end{minted}
+  \begin{cmdoutput}
+NAME              DESCRIPTION                                       STARS     OFFICIAL
+python            Python is an interpreted, interactive, objec...   10539     [OK]
+circleci/python   Python is an interpreted, interactive, objec...   117
+cimg/python                                                         25
+  \end{cmdoutput}
 
   \begin{itemize}
     \item Searches Docker Hub for container images matching a keyword
@@ -388,6 +396,15 @@ docker search python
   \begin{minted}{bash}
 docker pull python:3.13
   \end{minted}
+  \begin{cmdoutput}
+3.13: Pulling from library/python
+6c3776672264: Pull complete
+9f903ac3ecde: Pull complete
+...
+Digest: sha256:94e0b775113cf19d52f692d34d6084590c6d68f3f95a73a5071f503890d167c9
+Status: Downloaded newer image for python:3.13
+docker.io/library/python:3.13
+  \end{cmdoutput}
 
   \begin{itemize}
     \item \textbf{Format:} \texttt{<repository>:<tag>}
@@ -405,6 +422,14 @@ docker pull python:3.13
   \begin{minted}{bash}
 docker pull ghcr.io/some-user/some-image:v1
   \end{minted}
+  \begin{cmdoutput}
+v1: Pulling from some-user/some-image
+d8edd0713131: Pull complete
+8fede360f932: Pull complete
+Digest: sha256:47d9c30c184cf1f5a3c97e03b0115c12fa9316fdccab166f08f1c3784b0ad777
+Status: Downloaded newer image for ghcr.io/some-user/some-image:v1
+ghcr.io/some-user/some-image:v1
+  \end{cmdoutput}
 
   \begin{itemize}
     \item Prefix the container image name with the address of the registry
@@ -420,6 +445,11 @@ docker pull ghcr.io/some-user/some-image:v1
   \begin{minted}{bash}
 docker images
   \end{minted}
+  \begin{cmdoutput}
+IMAGE                             ID             DISK USAGE   CONTENT SIZE   EXTRA
+ghcr.io/some-user/some-image:v1   58bdfcbd7abb        312MB         98.4MB
+python:3.13                       153aa9c042bf       1.51GB          390MB
+  \end{cmdoutput}
 
   \begin{itemize}
     \item Lists all container images pulled to the host computer
@@ -449,6 +479,9 @@ docker run python:3.13
   \begin{minted}{bash}
 docker run python:3.13 python -c "print('hello!')"
   \end{minted}
+  \begin{cmdoutput}
+hello!
+  \end{cmdoutput}
 
   \begin{itemize}
     \item Everything after the container image name is the command to run inside the container instance
@@ -464,6 +497,12 @@ docker run python:3.13 python -c "print('hello!')"
   \begin{minted}{bash}
 docker run -it python:3.13 bash
   \end{minted}
+  \begin{cmdoutput}
+root@8e3bf59d4b8b:/# whoami
+root
+root@8e3bf59d4b8b:/# exit
+exit
+  \end{cmdoutput}
 
   \begin{itemize}
     \item \texttt{-it} connects our terminal to the container instance
@@ -509,6 +548,11 @@ docker run --name my-app -d python:3.13 sleep 3600
   \begin{minted}{bash}
 docker ps
   \end{minted}
+  \begin{cmdoutput*}{fontsize=\tiny}
+CONTAINER ID   IMAGE         COMMAND        CREATED         STATUS         PORTS     NAMES
+031f25c4fd69   python:3.13   "sleep 3600"   2 minutes ago   Up 2 minutes             my-app
+1aeb27808dfb   python:3.13   "sleep 3600"   5 minutes ago   Up 5 minutes             eager_tesla
+  \end{cmdoutput*}
 
   \begin{itemize}
     \item Lists running container instances
@@ -554,6 +598,12 @@ docker logs my-app
   \begin{minted}{bash}
 docker exec -it my-app bash
   \end{minted}
+  \begin{cmdoutput}
+root@031f25c4fd69:/# cat /etc/hostname
+031f25c4fd69
+root@031f25c4fd69:/# exit
+exit
+  \end{cmdoutput}
 
   \begin{itemize}
     \item Runs a command inside a container instance that is already running
@@ -579,8 +629,13 @@ docker rm my-app
 \end{frame}
 
 
-\begin{frame}{Talking to the outside}
-  A container instance is \textbf{isolated from the host computer} by design: files written inside stay inside, ports are not reachable from outside, and the host's environment variables are invisible to it.
+\begin{frame}{Talking to the host computer}
+  A container instance is \textbf{isolated from the host computer} by design:
+  \begin{itemize}
+    \item Files written inside stay inside and are discarded after it is removed
+    \item Ports are not reachable from outside
+    \item The host's environment variables are invisible to it
+  \end{itemize}
 
   \vspace{1.0em}
   We explicitly open holes when we want the container instance to interact with the host:
@@ -599,6 +654,9 @@ docker rm my-app
   \begin{minted}{bash}
 docker run -p 8000:8000 python:3.13 python -m http.server 8000
   \end{minted}
+  \begin{cmdoutput}
+172.17.0.1 - - [19/Oct/2026 10:15:32] "GET / HTTP/1.1" 200 -
+  \end{cmdoutput}
 
   \begin{itemize}
     \item \textbf{Format:} \texttt{-p <host\_port>:<container\_port>}
@@ -614,6 +672,9 @@ docker run -p 8000:8000 python:3.13 python -m http.server 8000
   \begin{minted}{bash}
 docker run -p 3000:8000 python:3.13 python -m http.server 8000
   \end{minted}
+  \begin{cmdoutput}
+172.17.0.1 - - [19/Oct/2026 10:18:04] "GET / HTTP/1.1" 200 -
+  \end{cmdoutput}
 
   \begin{itemize}
     \item The two ports do not have to match
@@ -630,6 +691,10 @@ docker run -p 3000:8000 python:3.13 python -m http.server 8000
   \begin{minted}{bash}
 docker run -v $(pwd):/app python:3.13 ls /app
   \end{minted}
+  \begin{cmdoutput}
+README.md
+client.py
+  \end{cmdoutput}
 
   \begin{itemize}
     \item \textbf{Format:} \texttt{-v <host\_path>:<container\_path>}
@@ -658,6 +723,9 @@ docker run -v $(pwd):/app python:3.13 ls /app
 docker run -e OPENAI_API_KEY=sk-abc... python:3.13 \
     python -c "import os; print(os.getenv('OPENAI_API_KEY'))"
   \end{minted}
+  \begin{cmdoutput}
+sk-abc...
+  \end{cmdoutput}
 
   \begin{itemize}
     \item \textbf{Format:} \texttt{-e <KEY>=<value>}
@@ -674,6 +742,9 @@ docker run -e OPENAI_API_KEY=sk-abc... python:3.13 \
 docker run --env-file .env python:3.13 \
     python -c "import os; print(dict(os.environ))"
   \end{minted}
+  \begin{cmdoutput}
+{'PATH': '/usr/local/bin:...', ..., 'OPENAI_API_KEY': 'sk-abc...', ...}
+  \end{cmdoutput}
 
   \begin{itemize}
     \item Reads all variables from a file, convenient when there are many

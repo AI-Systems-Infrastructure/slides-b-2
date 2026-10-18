@@ -368,6 +368,22 @@ subsubsectionstyle=show/shaded/hide]
 \section{Using Containers}
 
 
+\begin{frame}[fragile]{Find a container image}
+  \begin{minted}{bash}
+docker search python
+  \end{minted}
+
+  \begin{itemize}
+    \item Searches Docker Hub for container images matching a keyword
+    \item Official container images are marked \texttt{[OK]} in the \texttt{OFFICIAL} column
+    \item Browse \texttt{hub.docker.com} for the available tags and documentation of a container image
+  \end{itemize}
+
+\note{
+}
+\end{frame}
+
+
 \begin{frame}[fragile]{Pull a container image}
   \begin{minted}{bash}
 docker pull python:3.13

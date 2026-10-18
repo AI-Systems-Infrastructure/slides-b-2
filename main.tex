@@ -142,7 +142,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{Scale up AI systems on more hardware}
   Now we have \textbf{more computers} with \textbf{the same architecture}. Should be as simple as \textit{setting up and running my AI system on every computer}.
 
-  % TODO: Embed an "it works on my machine" meme image
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[height=0.55\textheight]{works-on-my-machine}
+      \end{center}
+  \end{figure}
 \note{
   After all, my program works on my computer. Should automatically work on other computers.
 }
@@ -155,7 +159,11 @@ subsubsectionstyle=show/shaded/hide]
   \item \textbf{Tedious setup process:} Going through the process of configuring the runtime environment on every computer is impractical
 \end{itemize}
 
-  % TODO: Embed an image of the tedious process of setting up multiple Windows computers at once. I am thinking about an image in a post where an IT guy set up Windows laptops for his company, and tens of Cortana files at once.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.45\textheight,keepaspectratio]{cortana-laptops-setup}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -181,7 +189,19 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{Container IRL}{Shipments before containers}
   Each shipment differs in size, shape, and packaging.
 
-  % TODO: Embed images showing the (chaos) shipment process before containers.
+  \begin{figure}[htpb]
+      \begin{center}
+          \begin{subfigure}{0.365\textwidth}
+              \includegraphics[width=\textwidth]{break-bulk-cargo-1}
+              \caption{Hamburg quay, c. 1900}
+          \end{subfigure}
+          \hspace{0.05\textwidth}
+          \begin{subfigure}{0.435\textwidth}
+              \includegraphics[width=\textwidth]{break-bulk-cargo-2}
+              \caption{Ship's hold, Sydney, 1933}
+          \end{subfigure}
+      \end{center}
+  \end{figure}
 
 \note{
 }
@@ -191,7 +211,19 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{Container IRL}{Shipments after containers}
   \textbf{Shipping containers:} Standardized boxes to streamline the process of moving shipments.
 
-  % TODO: Embed two images. Left shows the container standard. Right shows one shipment process with containers.
+  \begin{figure}[htpb]
+      \begin{center}
+          \begin{subfigure}{0.42\textwidth}
+              \includegraphics[width=\textwidth]{module-b2-iso-container-standard}
+              \caption{The container standard}
+          \end{subfigure}
+          \hspace{0.05\textwidth}
+          \begin{subfigure}{0.42\textwidth}
+              \includegraphics[width=\textwidth]{container-port-loading}
+              \caption{Loading containers at a port}
+          \end{subfigure}
+      \end{center}
+  \end{figure}
 
 \note{
 }
@@ -226,7 +258,19 @@ subsubsectionstyle=show/shaded/hide]
     \item \textbf{Container instance:} A running program initialized from an image
   \end{itemize}
 
-  % TODO: Embed two images of the same PS5 game, left is the game disc, right is a running game instance.
+  \begin{figure}[htpb]
+      \begin{center}
+          \begin{subfigure}{0.3\textwidth}
+              \includegraphics[width=\textwidth]{ps5-game-disc}
+              \caption{Game disc}
+          \end{subfigure}
+          \hspace{0.05\textwidth}
+          \begin{subfigure}{0.533\textwidth}
+              \includegraphics[width=\textwidth]{ps5-game-running}
+              \caption{Running game}
+          \end{subfigure}
+      \end{center}
+  \end{figure}
 
 \note{
 }
@@ -236,7 +280,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{Container vs. virtual machine}
   A \textbf{virtual machine (VM)} is an alternative approach to the same problem.
 
-  % TODO: Embed a diagram comparing VM and container.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.5\textheight,keepaspectratio]{module-b2-vm-vs-container}
+      \end{center}
+  \end{figure}
 
   \begin{itemize}
     \item \textbf{VM:} Each instance has its own isolated kernel and operating system, better isolation
@@ -254,7 +302,11 @@ subsubsectionstyle=show/shaded/hide]
     \item \textbf{In a container instance:} A writable container layer on top of the read-only image layers for instance-specific states
   \end{itemize}
 
-  % TODO: Embed a diagram showing the layer structure
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.5\textheight,keepaspectratio]{module-b2-container-layers}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -287,7 +339,11 @@ subsubsectionstyle=show/shaded/hide]
     \item Discarded at the termination of the container instance
   \end{itemize}
 
-  % TODO: Embed the same image in the above "{Layered structure of containers}{Image layer and container layer}" frame
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.5\textheight,keepaspectratio]{module-b2-container-layers}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -299,7 +355,11 @@ subsubsectionstyle=show/shaded/hide]
   \vspace{1.0em}
   A container image can be defined, built, and initialized as a container instance on any implementation of the container system that follows the OCI standard.
 
-  % TODO: Embed an image/diagram representing the OCI standard.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.45\textheight,keepaspectratio]{module-b2-oci-standard}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -312,7 +372,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{What is Docker?}
   An ecosystem (a collection of tools) that work together. Includes all tools we need to work with containers.
 
-  % TODO: Embed a diagram showing the following core components in the Docker ecosystem.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.66\textheight,keepaspectratio]{module-b2-docker-ecosystem}
+      \end{center}
+  \end{figure}
 
 \note{
 }
@@ -322,7 +386,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{The Docker ecosystem}{Docker Engine}
   The core runtime responsible for actually running containers on a machine.
 
-  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Docker Engine highlighted.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.66\textheight,keepaspectratio]{module-b2-docker-ecosystem-engine}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -331,7 +399,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{The Docker ecosystem}{Docker client}
   The client program we interface with, which internally will call the Docker Engine for actual operations.
 
-  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Docker client highlighted.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.66\textheight,keepaspectratio]{module-b2-docker-ecosystem-client}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -343,7 +415,19 @@ subsubsectionstyle=show/shaded/hide]
     \item \textbf{Docker Desktop:} Providing the graphical user interface for more intuitive use
   \end{itemize}
 
-  % TODO: Embed two screenshots, left CLI, right desktop GUI.
+  \begin{figure}[htpb]
+      \begin{center}
+          \begin{subfigure}{0.43\textwidth}
+              \includegraphics[width=\textwidth]{docker-cli}
+              \caption{Docker CLI}
+          \end{subfigure}
+          \hspace{0.05\textwidth}
+          \begin{subfigure}{0.43\textwidth}
+              \includegraphics[width=\textwidth]{docker-desktop}
+              \caption{Docker Desktop}
+          \end{subfigure}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -352,7 +436,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{The Docker ecosystem}{Dockerfile}
   Plain-text definition of how a container image is built.
 
-  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Dockerfile highlighted.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.66\textheight,keepaspectratio]{module-b2-docker-ecosystem-dockerfile}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}
@@ -361,7 +449,11 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{The Docker ecosystem}{Docker Hub}
   Public registry where developers publish and download container images.
 
-  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Docker Hub highlighted.
+  \begin{figure}[htpb]
+      \begin{center}
+          \includegraphics[width=0.9\textwidth,height=0.66\textheight,keepaspectratio]{module-b2-docker-ecosystem-hub}
+      \end{center}
+  \end{figure}
 \note{
 }
 \end{frame}

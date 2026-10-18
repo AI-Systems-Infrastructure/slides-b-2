@@ -173,131 +173,131 @@ subsubsectionstyle=show/shaded/hide]
 
 
 
+\section{Container Concepts}
 
-\section{What Is a Container}
 
-\begin{frame}{The original shipping container}
-Before \textbf{shipping containers} were standardized in the 1960s, freight was loaded onto ships piece by piece.
-    Each shipment had its own size, shape, and packing, and dock workers had to figure out where everything went by hand.
+\begin{frame}{Container IRL}{Shipments before containers}
+  Each shipment differs in size, shape, and packaging.
 
+  % TODO: Embed images showing the (chaos) shipment process before containers.
+
+\note{
+}
+\end{frame}
+
+
+\begin{frame}{Container IRL}{Shipments after containers}
+  \textbf{Shipping containers:} Standardized boxes to streamline the process of moving shipments.
+
+  % TODO: Embed two images. Left shows the container standard. Right shows one shipment process with containers.
+
+\note{
+}
+\end{frame}
+
+
+\begin{frame}{Container in computers}
+  A piece of software relies on its code, configuration, runtime environments, file system layout, runtime states, \dots to \textit{work as expected}.
+
+  \begin{block}{Software deployment without containers}
     \begin{itemize}
-        \item Loading a single ship could take days
-        \item Goods often got damaged, lost, or stolen along the way
+      \item Setting up everything right on each computer the software is deployed to is tedious and prone to error
+      \item Multiple pieces of software running on the same computer might interfere with each other
     \end{itemize}
+  \end{block}
 
-    The fix is to agree on a standard box that any ship, train, or truck can carry, and pack everything into those boxes once at the source.
+  \begin{block}{Software deployment with containers}
+    \begin{itemize}
+      \item A container packs everything a piece of software needs in one self-contained package
+      \item A container provides an isolated environment for software to run without interference
+    \end{itemize}
+  \end{block}
 
-    \vspace{0.5em}
-\textbf{Software containers} borrow both the idea and the name.
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{Images vs containers}
-    Two terms used interchangeably in everyday speech but with distinct meanings.
+\begin{frame}{Container image vs. container instance}
+  \begin{itemize}
+    \item \textbf{Container image:} A static, read-only blueprint of everything needed to run a program
+    \item \textbf{Container instance:} A running program initialized from an image
+  \end{itemize}
 
-    \begin{block}{Container image}
-        The package itself. A static, read-only blueprint of everything needed to run a program.
-        Sits on disk and does nothing on its own.
-        Like a recipe written on paper.
-    \end{block}
+  % TODO: Embed two images of the same PS5 game, left is the game disc, right is a running game instance.
 
-    \begin{block}{Container}
-        A running program created from an image.
-        The runtime allocates CPU and memory, sets up an isolated environment, and runs the program inside it.
-        Like the dish cooked from the recipe.
-    \end{block}
-
-    One image can be used to start many containers. Each starts in the same state and evolves independently.
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{Container vs virtual machine}
-\textbf{Virtual machines (VMs)} are the alternative approach to the same problem.
+\begin{frame}{Container vs. virtual machine}
+  A \textbf{virtual machine (VM)} is an alternative approach to the same problem.
 
-    \begin{figure}[htpb]
-        \begin{center}
-            \includegraphics[width=0.6\textwidth]{vm_vs_container}
-        \end{center}
-    \end{figure}
+  % TODO: Embed a diagram comparing VM and container.
 
-Each virtual machine has its own kernel and operating system, while containers share the same host kernel.
-Containers are light enough to start in seconds, at the cost of weaker isolation than a VM.
-We come back to VMs in Module B.4.
+  \begin{itemize}
+    \item \textbf{VM:} Each instance has its own isolated kernel and operating system, better isolation
+    \item \textbf{Container:} All instances share the kernel of the host computer, more lightweight
+  \end{itemize}
+
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{Layered filesystems}
-    An image holds everything a program needs, which adds up to a lot of files.
-    Storing each image as one solid block would waste space, since most images have a lot in common.
-    Two different Python apps still sit on the same Python and the same Linux underneath.
+\begin{frame}{Layered structure of containers}{Image layer and container layer}
+  \begin{itemize}
+    \item \textbf{In a container image:} Stacks of image layers, each containing one part of what a program needs
+    \item \textbf{In a container instance:} A writable container layer on top of the read-only image layers for instance-specific states
+  \end{itemize}
 
-    \begin{figure}[htpb]
-        \begin{center}
-            \includegraphics[width=0.3\textwidth]{danish-burger}
-        \end{center}
-    \end{figure}
-
-    A fast-food kitchen does not build each burger from scratch.
-    The bottom bun and patty are shared, a cheeseburger adds cheese, a deluxe burger adds lettuce, tomato, and sauce.
+  % TODO: Embed a diagram showing the layer structure
 \note{
 }
 \end{frame}
 
 
-\begin{frame}[fragile]{An image is a stack of layers}
-    An image is built like those burgers, as a stack of layers, each adding a bit on top of the one below.
+\begin{frame}[fragile]{Layered structure of containers}{Image layer}
+  Image layers in a typical container image for an AI system:
+
     \begin{minted}{text}
-4. Application code   <- the special sauce, your own program
-3. Python packages    <- the extra toppings
-2. Python runtime     <- the patty
-1. Linux base         <- the bottom bun
+4. Application code
+3. Python packages
+2. Python runtime
+1. Linux base
     \end{minted}
 
     \begin{itemize}
-        \item A shared layer is stored only once, however many images use it
-        \item Pulling a new image only downloads the layers you do not already have
+      \item The same layer is shared across different container images on a host computer
+      \item Modification to one layer also changes other layers on top of it
     \end{itemize}
 
-    So the second image built on the same base feels much faster to pull than the first.
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{The writable layer}
-    When a container starts from an image, the runtime adds one extra writable layer on top of the read-only stack.
+\begin{frame}{Layered structure of containers}{Container layer}
+  \begin{itemize}
+    \item Created at the initialization of a container instance
+    \item Holds anything the running program writes
+    \item Discarded at the termination of the container instance
+  \end{itemize}
 
-    \begin{figure}[htpb]
-        \begin{center}
-            \includegraphics[width=0.4\textwidth]{container-layers}
-        \end{center}
-    \end{figure}
-
-    Anything the running program writes, like temporary files, log lines, or cached data, ends up in that layer.
-    When the container is removed, the writable layer is discarded.
+  % TODO: Embed the same image in the above "{Layered structure of containers}{Image layer and container layer}" frame
 \note{
 }
 \end{frame}
 
 
 \begin{frame}{The OCI standard}
-    We keep saying containers and runtimes as generic things, even though Docker is the household name.
+  \textbf{Open Container Initiative (OCI):} An industry body that maintains the specification of computer containers.
 
-    The reason is that the format and behavior of containers are governed by an open standard, not by any single vendor.
+  \vspace{1.0em}
+  A container image can be defined, built, and initialized as a container instance on any implementation of the container system that follows the OCI standard.
 
-    \begin{block}{Open Container Initiative}
-        An industry body that maintains the specification for what an image is and how a runtime should run one.
-        Tools following OCI are interoperable.
-    \end{block}
-
-    \vspace{0.5em}
-    Build an image with one tool, push it to a registry hosted by another, run it on a third. No conversion step in between.
+  % TODO: Embed an image/diagram representing the OCI standard.
 \note{
 }
 \end{frame}

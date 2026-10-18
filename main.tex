@@ -304,56 +304,65 @@ subsubsectionstyle=show/shaded/hide]
 
 
 
-\section{The Docker Ecosystem}
+\section{Docker}
 
-\begin{frame}{Docker is not one program}
-    Docker is the toolset that made containers mainstream, and it is still the most popular way to work with them.
 
-    In practice, Docker is a collection of tools that work together.
+\begin{frame}{What is Docker?}
+  An ecosystem (a collection of tools) that work together. Includes all tools we need to work with containers.
 
-    \begin{figure}[htpb]
-        \begin{center}
-            \includegraphics[width=0.8\textwidth]{docker-architecture}
-        \end{center}
-    \end{figure}
+  % TODO: Embed a diagram showing the following core components in the Docker ecosystem.
+
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{Docker Engine and clients}
-    \begin{block}{Docker Engine}
-        The core runtime responsible for actually running containers on a machine.
-        Pulls images, sets up namespaces and cgroups, starts and stops container processes.
-        The server side is a long-running daemon (\texttt{dockerd}).
-    \end{block}
+\begin{frame}{The Docker ecosystem}{Docker Engine}
+  The core runtime responsible for actually running containers on a machine.
 
-    \begin{block}{Clients we will use}
-        \begin{itemize}
-\item \textbf{Docker CLI:} the \texttt{docker} command. Almost everything in this course goes through it
-\item \textbf{Docker Desktop:} bundles the daemon, CLI, and a GUI into one installer
-        \end{itemize}
-    \end{block}
+  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Docker Engine highlighted.
 \note{
 }
 \end{frame}
 
 
-\begin{frame}{Dockerfile and Docker Hub}
-    \begin{block}{Dockerfile}
-        Plain-text file describing how to build a container image.
-        Each line is one instruction, roughly one layer per instruction.
-        We will build our own in Module B.3.
-    \end{block}
+\begin{frame}{The Docker ecosystem}{Docker client}
+  The client program we interface with, which internally will call the Docker Engine for actual operations.
 
-    \begin{block}{Docker Hub}
-        Public registry where developers publish and download container images.
-        Hosts both official images for popular software (Python, PostgreSQL, Nginx) and a large collection of community images.
-    \end{block}
+  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Docker client highlighted.
 \note{
 }
 \end{frame}
 
+
+\begin{frame}{The Docker ecosystem}{Docker client}
+  \begin{itemize}
+    \item \textbf{Docker CLI:} Providing the command line interface with the \texttt{docker} command
+    \item \textbf{Docker Desktop:} Providing the graphical user interface for more intuitive use
+  \end{itemize}
+
+  % TODO: Embed two screenshots, left CLI, right desktop GUI.
+\note{
+}
+\end{frame}
+
+
+\begin{frame}{The Docker ecosystem}{Dockerfile}
+  Plain-text definition of how a container image is built.
+
+  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Dockerfile highlighted.
+\note{
+}
+\end{frame}
+
+
+\begin{frame}{The Docker ecosystem}{Docker Hub}
+  Public registry where developers publish and download container images.
+
+  % TODO: Embed the same diagram in the "{What is Docker?}" frame, with Docker Hub highlighted.
+\note{
+}
+\end{frame}
 
 
 \section{Using Off-the-Shelf Containers}

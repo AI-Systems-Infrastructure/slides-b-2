@@ -757,9 +757,10 @@ docker run --env-file .env python:3.13 \
 
 
 
-\section{Exercise}
+\section{Summary}
 
-\begin{frame}{Run the A.2 client in a container}
+
+\begin{frame}{Exercise: Run the A.2 client in a container}
     Run the chatbot script from Module A.2, but without installing Python or \texttt{requests} on the host.
 
     \begin{block}{Outline}
@@ -774,31 +775,12 @@ docker run --env-file .env python:3.13 \
 \end{frame}
 
 
-\begin{frame}{Extensions}
-    \begin{enumerate}
-        \item Replace the interactive install step with one \texttt{docker run} that installs the dependency and runs the script in a single line
-        \item Run the same script through \texttt{python:3.13-alpine}. Notice the image is much smaller and everything still works
-        \item Try \texttt{docker stats} on a running container, and \texttt{docker inspect} for the full configuration. Get a feel for what the daemon is actually managing
-    \end{enumerate}
+\begin{frame}{Preview of the next module}
+\begin{itemize}
+  \item \textbf{In this module:} Everything we need to use existing container images and manage container instances, but nothing to customize a container image of our own.
+  \item \textbf{In the next module:} Ways to define a container image from scratch, and package our AI system into a container image.
+\end{itemize}
 
-    \vspace{0.5em}
-    By the end you have a feel for how containers run programs without any per-machine setup.
-    Next module: build our own image instead of using someone else's.
-\note{
-}
-\end{frame}
-
-
-\begin{frame}{What you should walk away with}
-    By the end of the exercise, you should be able to:
-    \begin{enumerate}
-        \item Understand how containers work
-        \item Be familiar with the Docker ecosystem
-        \item Run and manage a container with an off-the-shelf image
-    \end{enumerate}
-
-    \vspace{0.5em}
-In the next module, we will learn how to build our own container image with everything needed to run our AI API server.
 \note{
 }
 \end{frame}
